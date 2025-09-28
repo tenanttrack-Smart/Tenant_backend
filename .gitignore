@@ -1,0 +1,46 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+logs
+*.log
+*.csv
+*.out
+*.pid
+*.seed
+*.pid.lock
+
+# dotenv environment variables
+.env
+.env.*
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+Icon?
+
+# VS Code
+.vscode/
+
+# Build output
+dist/
+build/
+coverage/
+
+# Misc
+.sass-cache/
+.nyc_output/
+.next/
+out/
+.cache/
+.parcel-cache/
+.eslintcache
+.turbo/
+
+/lib/generated/prisma
