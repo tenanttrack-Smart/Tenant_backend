@@ -14,7 +14,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model User {
   id        String   @id @default(cuid())
   name String
   email String @unique
@@ -24,11 +24,65 @@ model user {
   updatedAt DateTime @updatedAt
     @@map("users")
 
+
+  // Relations
+  leasesAsTenant   Lease[] @relation("TenantLeases")
+  leasesAsLandlord Lease[] @relation("LandlordLeases")
+  payments         Payment[] @relation("TenantPayments")
+  processedPayments Payment[] @relation("StaffProcessedPayments")
 }
  enum Role {
   LANDLORD
   TENANT
   STAFF
 }
- 
- 
+ model Property {
+  id        String   @id @default(uuid())
+  title     String
+  address   String
+  description String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  leases Lease[]
+}
+model Lease {
+  id        String   @id @default(uuid())
+  tenantId  String
+  landlordId String
+  propertyId String
+  startDate DateTime
+  endDate   DateTime
+  rentAmount Float
+  paymentFrequency String  @default("monthly")
+  status    String         @default("active")
+  notes     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ // Relations
+
+   tenant   User     @relation("TenantLeases", fields: [tenantId], references: [id])
+  landlord User     @relation("LandlordLeases", fields: [landlordId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+  payments Payment[]
+}
+
+// -------------------- PAYMENTS --------------------
+model Payment {
+  id         String   @id @default(uuid())
+  tenantId   String
+  leaseId    String
+  staffId    String?   // optional: staff who processed
+  amount     Float
+  paymentDate DateTime @default(now())
+  paymentMethod String?
+  paymentStatus String   @default("pending")
+  notes      String?
+
+  // Relations
+  tenant User  @relation("TenantPayments", fields: [tenantId], references: [id])
+  lease  Lease @relation(fields: [leaseId], references: [id])
+  staff  User? @relation("StaffProcessedPayments", fields: [staffId], references: [id])
+}
