@@ -1,5 +1,10 @@
 import express from "express";
-import { getAllUsers, getUserById, createUser, updateUser, deleteUser } from "../services/authService.js";
+import { getAllUsers,
+   getUserById,
+    createUser, 
+    updateUser, 
+    deleteUser
+   } from "../services/authServer.js";
 
 const router = express.Router();
 

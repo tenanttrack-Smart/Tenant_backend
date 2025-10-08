@@ -36,11 +36,16 @@ router.post("/register", async (req, res) => {
 // Login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) return res.status(400).json({ success: false, message: "User not found" });
+  const user = await prisma.user.findUnique
+  ({ where: { email } });
+  if (!user) return res.status(400).json({ 
+    success: false, 
+    message: "User not found" });
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) return res.status(400).json({ success: false, message: "Invalid password" });
+  if (!isPasswordValid) return res.status(400).json({
+     success: false, 
+     message: "Invalid password" });
 
   const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: "48h" });
   const { password: _, ...userWithoutPassword } = user;

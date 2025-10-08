@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma.js";
 
-// 🟢 GET all users
+// GET all users
 export async function getAllUsers() {
   return await prisma.user.findMany({
     select: {
@@ -14,7 +14,7 @@ export async function getAllUsers() {
   });
 }
 
-// 🟢 GET single user by ID
+// GET single user by ID
 export async function getUserById(id) {
   const user = await prisma.user.findUnique({
     where: { id },
@@ -31,7 +31,7 @@ export async function getUserById(id) {
   return user;
 }
 
-// 🟢 CREATE user
+//  CREATE user
 export async function createUser(data) {
   const { name, email, password, role } = data;
 
@@ -55,7 +55,7 @@ export async function createUser(data) {
   });
 }
 
-// 🟢 UPDATE user
+//  UPDATE user
 export async function updateUser(id, data) {
   const { name, email, role } = data;
 
@@ -79,7 +79,7 @@ export async function updateUser(id, data) {
   });
 }
 
-// 🟢 DELETE user
+//  DELETE user
 export async function deleteUser(id) {
   return await prisma.user.delete({
     where: { id },
