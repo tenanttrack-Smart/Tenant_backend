@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import authRoutes from "./routes/auth.js";
 import { authenticateToken } from "./middleware/auth.js";
+import userRoutes from "./routes/users.js"
 
 
 // Initialize Express app
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Mount API routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 
 // server.js
