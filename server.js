@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import authRoutes from "./routes/auth.js";
 import { authenticateToken } from "./middleware/auth.js";
 import userRoutes from "./routes/users.js"
+import notificationRoutes from "./routes/notificationRoutes.js"
 
 import TenantRoute from "./routes/tenantRoute.js"
 
@@ -20,6 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 // Mount API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+
+app.use("/api/notifications", notificationRoutes);
+
 app.use("/api/tenants", TenantRoute);
 
 
