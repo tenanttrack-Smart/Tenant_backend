@@ -5,6 +5,7 @@ export const createTenant = async (data) =>{
     try {
         const {
             userId,
+            email,
             phone,
             propertyName,
             unitNumber,
@@ -18,6 +19,7 @@ export const createTenant = async (data) =>{
         const tenant = await prisma.tenant.create ({
             data:{
                 userId,
+                email,
                 phone,
                 propertyName,
                 unitNumber,
@@ -72,6 +74,7 @@ export const getTenantsById = async (id) => {
 export const updateTenant = async (id, data) => {
     try {        
         const {
+            email,
             phone,
             propertyName,
             unitNumber,
@@ -84,6 +87,7 @@ export const updateTenant = async (id, data) => {
         const tenant = await prisma.tenant.update({
             where: { id },
             data: {
+               email,
                phone,
                propertyName,
                unitNumber,
