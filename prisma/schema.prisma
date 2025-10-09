@@ -22,7 +22,8 @@ model User {
   role   Role @default(TENANT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-    @@map("users")
+ 
+    
 
 
   // Relations
@@ -30,12 +31,37 @@ model User {
   leasesAsLandlord Lease[] @relation("LandlordLeases")
   payments         Payment[] @relation("TenantPayments")
   processedPayments Payment[] @relation("StaffProcessedPayments")
+   tenant Tenant?
+  
+  @@map("users")
 }
  enum Role {
   LANDLORD
   TENANT
   STAFF
 }
+model Tenant {
+  id        String @id @default(uuid())
+  userId    String @unique
+  phone    String?
+  propertyName String
+  unitNumber String
+  monthlyRent Float
+  depositAmount Float
+  startDate DateTime
+  endDate DateTime
+  status    String @default("active")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)  
+
+  @@map("tenants")
+}
+
+
  model Property {
   id        String   @id @default(uuid())
   title     String
