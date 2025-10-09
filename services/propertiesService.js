@@ -1,4 +1,4 @@
-import prisma from "../prisma.js";
+import prisma from "../lib/prisma.js";
 
 // Create property
 export const createProperty = async (data) => {

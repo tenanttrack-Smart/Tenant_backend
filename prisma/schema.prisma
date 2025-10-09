@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -16,73 +15,114 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
-  name String
-  email String @unique
-  password String
-  role   Role @default(TENANT)
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(TENANT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-    @@map("users")
-
 
   // Relations
-  leasesAsTenant   Lease[] @relation("TenantLeases")
-  leasesAsLandlord Lease[] @relation("LandlordLeases")
-  payments         Payment[] @relation("TenantPayments")
+  leasesAsTenant    Lease[]   @relation("TenantLeases")
+  leasesAsLandlord  Lease[]   @relation("LandlordLeases")
+  payments          Payment[] @relation("TenantPayments")
   processedPayments Payment[] @relation("StaffProcessedPayments")
+  tenant            Tenant?
+  Property          Property?
+
+  @@map("users")
 }
- enum Role {
+
+enum Role {
   LANDLORD
   TENANT
   STAFF
 }
- model Property {
-  id        String   @id @default(uuid())
-  title     String
-  address   String
-  description String?
+
+model Tenant {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  email         String   @unique
+  phone         String?
+  propertyName  String
+  unitNumber    String
+  monthlyRent   Float
+  depositAmount Float
+  startDate     DateTime
+  endDate       DateTime
+  status        String   @default("active")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  leases Lease[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("tenants")
 }
+
+model Property {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  title       String
+  address     String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Lease Lease[]
+
+  @@map("properties")
+}
+
 model Lease {
-  id        String   @id @default(uuid())
-  tenantId  String
-  landlordId String
-  propertyId String
-  startDate DateTime
-  endDate   DateTime
-  rentAmount Float
-  paymentFrequency String  @default("monthly")
-  status    String         @default("active")
-  notes     String?
+  id               String   @id @default(uuid())
+  tenantId         String
+  landlordId       String
+  propertyId       String
+  startDate        DateTime
+  endDate          DateTime
+  rentAmount       Float
+  paymentFrequency String   @default("monthly")
+  status           String   @default("active")
+  notes            String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- // Relations
+  // Relations
 
-   tenant   User     @relation("TenantLeases", fields: [tenantId], references: [id])
-  landlord User     @relation("LandlordLeases", fields: [landlordId], references: [id])
-  property Property @relation(fields: [propertyId], references: [id])
+  tenant   User      @relation("TenantLeases", fields: [tenantId], references: [id])
+  landlord User      @relation("LandlordLeases", fields: [landlordId], references: [id])
+  property Property  @relation(fields: [propertyId], references: [id])
   payments Payment[]
 }
 
 // -------------------- PAYMENTS --------------------
 model Payment {
-  id         String   @id @default(uuid())
-  tenantId   String
-  leaseId    String
-  staffId    String?   // optional: staff who processed
-  amount     Float
-  paymentDate DateTime @default(now())
+  id            String   @id @default(uuid())
+  tenantId      String
+  leaseId       String
+  staffId       String? // optional: staff who processed
+  amount        Float
+  paymentDate   DateTime @default(now())
   paymentMethod String?
   paymentStatus String   @default("pending")
-  notes      String?
+  notes         String?
 
   // Relations
   tenant User  @relation("TenantPayments", fields: [tenantId], references: [id])
   lease  Lease @relation(fields: [leaseId], references: [id])
   staff  User? @relation("StaffProcessedPayments", fields: [staffId], references: [id])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  message   String
+  type      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
