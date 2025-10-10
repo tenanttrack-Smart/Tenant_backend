@@ -30,6 +30,7 @@ app.use("/api/notifications", notificationRoutes);
 
 app.use("/api/tenants", TenantRoute);
 
+
 // server.js
 app.get("/test", (req, res) => {
   res.send("Server is working ✅");
