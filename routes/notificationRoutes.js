@@ -1,38 +1,48 @@
-import express from "express"
-import prisma from "../lib/prisma"
+import express from "express";
+import prisma from "../lib/prisma.js";
 
 const route = express.Router();
 
-//get all notifications
-route.get("/", async (req, res)=>{
-  const {userId ,status} = req.query;
-  const filter ={
-    where:{
+// Get all notifications
+route.get("/", async (req, res) => {
+  try {
+    const { userId, status } = req.query;
+
+    const filter = {
+      where: {
         userId: parseInt(userId),
-       ... (status === "unread"? {isRead:false}:{}),
-       ... (status ==="read" ? {isRead: true}: {})
-    },
-    orderBy:{createdAt: "desc"},
-};
-    
+        ...(status === "unread" ? { isRead: false } : {}),
+        ...(status === "read" ? { isRead: true } : {}),
+      },
+      orderBy: { createdAt: "desc" },
+    };
+
     const notifications = await prisma.notification.findMany(filter);
     res.json(notifications);
-  
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
+    res.status(500).json({ error: "Failed to fetch notifications" });
+  }
 });
 
-//create
-route.post("/", async (req,res)=>{
-    const{userId,title,message,type} =req.body;
+// Create a new notification
+route.post("/", async (req, res) => {
+  try {
+    const { userId, title, message, type } = req.body;
     const notification = await prisma.notification.create({
-        data:{
-            userId,
-            title,
-            message,
-            type
-        },
-        
+      data: {
+        userId: parseInt(userId),
+        title,
+        message,
+        type,
+      },
     });
     res.json(notification);
+  } catch (error) {
+    console.error("Error creating notification:", error);
+    res.status(500).json({ error: "Failed to create notification" });
+  }
 });
 
-//make one 
+// ✅ Export route
+export default route;
