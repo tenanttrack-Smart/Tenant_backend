@@ -44,7 +44,7 @@ model Tenant {
   userId        String   @unique
   email         String   @unique
   phone         String?
-  propertyName  String
+  propertyName  String?
   unitNumber    String
   monthlyRent   Float
   depositAmount Float
@@ -125,4 +125,16 @@ model Notification {
   type      String
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model WorkOrder {
+  id            Int      @id @default(autoincrement())
+  title         String
+  description   String
+  apartmentName String
+  tenantName    String
+  priority      String
+  status        String
+  assignedTo    String?
+  createdAt     DateTime @default(now())
 }

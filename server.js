@@ -10,6 +10,7 @@ import propertyRoutes from "./routes/properties.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 
 import TenantRoute from "./routes/tenantRoute.js";
+import workOrderRoutes from "./routes/workOrders.js";
 
 // Initialize Express app
 const app = express();
@@ -29,6 +30,7 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 app.use("/api/tenants", TenantRoute);
+app.use("/api/work-orders", workOrderRoutes);
 
 // server.js
 app.get("/test", (req, res) => {
