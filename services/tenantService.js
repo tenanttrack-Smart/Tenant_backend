@@ -5,10 +5,10 @@ export const createTenant = async (data) =>{
     try {
         const {
             userId,
-            email,
-            phone,
             propertyName,
             unitNumber,
+            email,
+            phone,            
             monthlyRent,
             depositAmount,
             startDate,
@@ -19,10 +19,10 @@ export const createTenant = async (data) =>{
         const tenant = await prisma.tenant.create ({
             data:{
                 userId,
-                email,
-                phone,
                 propertyName,
                 unitNumber,
+                email,
+                phone,           
                 monthlyRent,
                 depositAmount,
                 startDate: new Date(startDate),
@@ -74,10 +74,10 @@ export const getTenantsById = async (id) => {
 export const updateTenant = async (id, data) => {
     try {        
         const {
-            email,
-            phone,
             propertyName,
             unitNumber,
+            email,
+            phone,          
             monthlyRent,
             depositAmount,
             startDate,
@@ -87,10 +87,10 @@ export const updateTenant = async (id, data) => {
         const tenant = await prisma.tenant.update({
             where: { id },
             data: {
-               email,
-               phone,
                propertyName,
                unitNumber,
+               email,
+               phone,             
                monthlyRent,
                depositAmount,
                startDate: new Date (startDate),
