@@ -9,7 +9,6 @@ import {
 
 const router = express.Router();
 
-// GET /api/work-orders?status=open&priority=urgent
 router.get("/", async (req, res) => {
   try {
     const { status, priority } = req.query;
@@ -25,7 +24,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET /api/work-orders/:id
 router.get("/:id", async (req, res) => {
   try {
     const order = await getWorkOrderById(req.params.id);
@@ -36,7 +34,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /api/work-orders
 router.post("/", async (req, res) => {
   try {
     const newOrder = await createWorkOrder(req.body);
@@ -46,7 +43,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT /api/work-orders/:id
 router.put("/:id", async (req, res) => {
   try {
     const updated = await updateWorkOrder(req.params.id, req.body);
@@ -56,7 +52,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE /api/work-orders/:id
 router.delete("/:id", async (req, res) => {
   try {
     const deleted = await deleteWorkOrder(req.params.id);
