@@ -13,6 +13,8 @@ import TenantRoute from "./routes/tenantRoute.js";
 import maintenanceRouter from "./routes/maintenanceRoute.js"
 import workOrderRoutes from "./routes/workOrders.js";
 
+import paymentRoutes from "./routes/payment.js";
+import leases from "./routes/leases.js";
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +35,10 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/tenants", TenantRoute);
 app.use("/api/maintenance", maintenanceRouter)
 app.use("/api/work-orders", workOrderRoutes);
+
+
+app.use("/api/payments", paymentRoutes);
+app.use("/api/lease",leases );
 
 // server.js
 app.get("/test", (req, res) => {
