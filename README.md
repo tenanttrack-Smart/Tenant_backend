@@ -4,28 +4,6 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 ---
 
-## 📑 Table of Contents
-
-- [⚙️ Technologies](#technologies)
-- [📁 Routes Overview](#routes-overview)
-- [🔐 Authentication Routes](#authentication-routes)
-- [👤 User Routes](#user-routes)
-- [🏘️ Property Routes](#property-routes)
-- [👥 Tenant Routes](#tenant-routes)
-- [📜 Lease Routes](#lease-routes)
-- [💰 Payment Routes](#payment-routes)
-- [🧰 Maintenance Routes](#maintenance-routes)
-- [🧾 Work Order Routes](#work-order-routes)
-- [🔔 Notification Routes](#notification-routes)
-- [🎨 Report Routes](#report-routes)
-- [🔒 Protected Routes](#protected-routes)
-- [🧪 Test Route](#test-route)
-- [❌ Error Handling](#error-handling)
-- [🧭 Developer Notes](#developer-notes)
-- [🧑‍💻 Frontend Integration Notes](#frontend-integration-notes)
-
----
-
 ## ⚙️ Technologies
 
 - Node.js  
