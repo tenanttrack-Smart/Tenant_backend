@@ -2,45 +2,19 @@
 
 A backend API built with Node.js, Express, and Prisma for managing properties, tenants, leases, payments, maintenance, work orders, notifications, and reports.
 
+base URL: http://localhost:3000
 ---
 
-## ⚙️ Technologies
 
-- Node.js  
-- Express.js  
-- CORS  
-- Body-Parser  
-- JWT Authentication  
-
----
-
-## 📁 Routes Overview
-
-| Module | Base Route |
-|---------|-------------|
-| Authentication | `/api/auth` |
-| Users | `/api/users` |
-| Properties | `/api/properties` |
-| Tenants | `/api/tenants` |
-| Leases | `/api/lease` |
-| Payments | `/api/payments` |
-| Maintenance | `/api/maintenance` |
-| Work Orders | `/api/work-orders` |
-| Notifications | `/api/notifications` |
-| Reports | `/api/reports` |
-| Protected Routes | `/api/protected` |
-| Test Route | `/test` |
-
----
 
 ## 🔐 Authentication Routes
 
 **Base:** `/api/auth`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| POST | `/register` | Register a new user |
-| POST | `/login` | Authenticate user and return token |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| POST | `/register` | `{ name, email, password, role }` | Register a new user |
+| POST | `/login` | `{ email, password }` | Authenticate user and return token |
 
 ---
 
@@ -48,12 +22,12 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/users`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all users |
-| GET | `/:id` | Retrieve a specific user |
-| PUT | `/:id` | Update user details |
-| DELETE | `/:id` | Delete a user |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all users |
+| GET | `/:id` | None | Retrieve a specific user |
+| PUT | `/:id` | `{ name?, email?, password?, role? }` | Update user details (optional fields) |
+| DELETE | `/:id` | None | Delete a user |
 
 ---
 
@@ -61,13 +35,13 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/properties`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all properties |
-| GET | `/:id` | Retrieve a specific property |
-| POST | `/` | Create a new property |
-| PUT | `/:id` | Update property details |
-| DELETE | `/id` | Delete a property |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all properties |
+| GET | `/:id` | None | Retrieve a specific property |
+| POST | `/` | `{ title, address, description?, userId }` | Create a new property |
+| PUT | `/:id` | `{ title?, address?, description? }` | Update property details |
+| DELETE | `/:id` | None | Delete a property |
 
 ---
 
@@ -75,13 +49,13 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/tenants`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all tenants |
-| GET | `/:id` | Retrieve a specific tenant |
-| POST | `/` | Add a new tenant |
-| PUT | `/:id` | Update tenant information |
-| DELETE | `/:id` | Delete a tenant record |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all tenants |
+| GET | `/:id` | None | Retrieve a specific tenant |
+| POST | `/` | `{ userId, email, propertyName?, unitNumber, phone?, monthlyRent, depositAmount, startDate, endDate }` | Add a new tenant |
+| PUT | `/:id` | `{ email?, propertyName?, unitNumber?, phone?, monthlyRent?, depositAmount?, startDate?, endDate?, status? }` | Update tenant information |
+| DELETE | `/:id` | None | Delete a tenant record |
 
 ---
 
@@ -89,13 +63,13 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/lease`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all lease agreements |
-| GET | `/:id` | Retrieve a specific lease |
-| POST | `/` | Create a new lease |
-| PUT | `/:id` | Update lease details |
-| DELETE | `/id` | Delete a lease record |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all lease agreements |
+| GET | `/:id` | None | Retrieve a specific lease |
+| POST | `/` | `{ tenantId, landlordId, propertyId, startDate, endDate, rentAmount, paymentFrequency?, status?, notes? }` | Create a new lease |
+| PUT | `/:id` | `{ startDate?, endDate?, rentAmount?, paymentFrequency?, status?, notes? }` | Update lease details |
+| DELETE | `/:id` | None | Delete a lease record |
 
 ---
 
@@ -103,13 +77,13 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/payments`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all payments |
-| GET | `/:id` | Retrieve a specific payment |
-| POST | `/` | Record a new payment |
-| PUT | `/:id` | Update payment details |
-| DELETE | `/id` | Delete a payment record |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all payments |
+| GET | `/:id` | None | Retrieve a specific payment |
+| POST | `/` | `{ tenantId, leaseId, staffId?, amount, paymentDate?, paymentMethod?, paymentStatus?, notes? }` | Record a new payment |
+| PUT | `/:id` | `{ amount?, paymentDate?, paymentMethod?, paymentStatus?, notes? }` | Update payment details |
+| DELETE | `/:id` | None | Delete a payment record |
 
 ---
 
@@ -117,13 +91,13 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/maintenance`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all maintenance requests |
-| GET | `/:id` | Retrieve a specific maintenance request |
-| POST | `/` | Create a new maintenance request |
-| PUT | `/:id` | Update maintenance status/details |
-| DELETE | `/id` | Delete a maintenance request |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all maintenance requests |
+| GET | `/:id` | None | Retrieve a specific maintenance request |
+| POST | `/` | `{ tenantId, title, description, priority, status?, assignedTo? }` | Create a new maintenance request |
+| PUT | `/:id` | `{ title?, description?, priority?, status?, assignedTo? }` | Update maintenance status/details |
+| DELETE | `/:id` | None | Delete a maintenance request |
 
 ---
 
@@ -131,13 +105,13 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/work-orders`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all work orders |
-| GET | `/:id` | Retrieve a specific work order |
-| POST | `/` | Create a new work order |
-| PUT | `/:id` | Update work order details |
-| DELETE | `/id` | Delete a work order |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all work orders |
+| GET | `/:id` | None | Retrieve a specific work order |
+| POST | `/` | `{ title, description, apartmentName, tenantName, priority, status, assignedTo? }` | Create a new work order |
+| PUT | `/:id` | `{ title?, description?, apartmentName?, tenantName?, priority?, status?, assignedTo? }` | Update work order details |
+| DELETE | `/id` | None | Delete a work order |
 
 ---
 
@@ -145,12 +119,12 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/notifications`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all notifications |
-| GET | `/:id` | Retrieve a specific notification |
-| POST | `/` | Create a new notification |
-| DELETE | `/id` | Delete a notification |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all notifications |
+| GET | `/:id` | None | Retrieve a specific notification |
+| POST | `/` | `{ userId, title, message, type, isRead? }` | Create a new notification |
+| DELETE | `/id` | None | Delete a notification |
 
 ---
 
@@ -158,12 +132,12 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/reports`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Retrieve all reports |
-| GET | `/:id` | Retrieve a specific report |
-| POST | `/` | Create a new report |
-| DELETE | `/id` | Delete a report |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Retrieve all reports |
+| GET | `/:id` | None | Retrieve a specific report |
+| POST | `/` | `{ tenantId, landlordId, propertyId, data }` | Create a new report (full property/tenant/landlord details) |
+| DELETE | `/id` | None | Delete a report |
 
 ---
 
@@ -171,9 +145,9 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/api/protected`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Access a protected route (requires JWT token) |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | JWT token in header | Access a protected route (requires JWT token) |
 
 ---
 
@@ -181,9 +155,9 @@ A backend API built with Node.js, Express, and Prisma for managing properties, t
 
 **Base:** `/test`
 
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET | `/` | Check if the server is running |
+| Method | Endpoint | Required Data | Description |
+|--------|-----------|---------------|-------------|
+| GET | `/` | None | Check if the server is running |
 
 ---
 
