@@ -10,11 +10,13 @@ import propertyRoutes from "./routes/properties.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 
 import TenantRoute from "./routes/tenantRoute.js";
-import maintenanceRouter from "./routes/maintenanceRoute.js"
+import maintenanceRouter from "./routes/maintenanceRoute.js";
 import workOrderRoutes from "./routes/workOrders.js";
 
 import paymentRoutes from "./routes/payment.js";
 import leases from "./routes/leases.js";
+import reportRoutes from "./routes/ReportRoutes.js";
+
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,12 +35,12 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 app.use("/api/tenants", TenantRoute);
-app.use("/api/maintenance", maintenanceRouter)
+app.use("/api/maintenance", maintenanceRouter);
 app.use("/api/work-orders", workOrderRoutes);
 
-
 app.use("/api/payments", paymentRoutes);
-app.use("/api/lease",leases );
+app.use("/api/lease", leases);
+app.use("/api/reports", reportRoutes);
 
 // server.js
 app.get("/test", (req, res) => {
@@ -60,7 +62,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     success: false,
     message: "Something went wrong!",
-    error: process.env.NODE_ENV === "development" ? err.message : {},
+    error:
+      process.env.NODE_ENV === "development"
+        ? err.message
+        : {},
   });
 });
 
@@ -74,7 +79,9 @@ app.all(/.*/, (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(
+    `🚀 Server is running on http://localhost:${PORT}`
+  );
 });
 
 export default app;
