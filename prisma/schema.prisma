@@ -23,10 +23,11 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relations
-  leasesAsTenant    Lease[]   @relation("TenantLeases")
-  leasesAsLandlord  Lease[]   @relation("LandlordLeases")
-  payments          Payment[] @relation("TenantPayments")
-  processedPayments Payment[] @relation("StaffProcessedPayments")
+  leasesAsTenant    Lease[]      @relation("TenantLeases")
+  leasesAsLandlord  Lease[]      @relation("LandlordLeases")
+  payments          Payment[]    @relation("TenantPayments")
+  processedPayments Payment[]    @relation("StaffProcessedPayments")
+  workOrders        WorkOrder[]  @relation("UserWorkOrders")
   tenant            Tenant?
   Property          Property?
 
@@ -146,6 +147,7 @@ model Notification {
 
 model WorkOrder {
   id            Int      @id @default(autoincrement())
+  userId        String
   title         String
   description   String
   apartmentName String
@@ -154,4 +156,9 @@ model WorkOrder {
   status        String
   assignedTo    String?
   createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  // Relations
+  user          User     @relation("UserWorkOrders", fields: [userId], references: [id])
+
+  @@map("workorder")
 }
