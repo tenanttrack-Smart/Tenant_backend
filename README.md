@@ -2,7 +2,7 @@
 
 A backend API built with Node.js, Express, and Prisma for managing properties, tenants, leases, payments, maintenance, work orders, notifications, and reports.
 
-base URL: http://localhost:3000
+base URL: https://tenant-ymzr.onrender.com
 ---
 
 
