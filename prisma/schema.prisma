@@ -31,6 +31,8 @@ model User {
   tenant            Tenant?
   Property          Property?
 
+    reportsGenerated Report[] @relation("UserReportsGenerated")
+
   @@map("users")
 }
 
@@ -115,6 +117,8 @@ model Lease {
   landlord User      @relation("LandlordLeases", fields: [landlordId], references: [id])
   property Property  @relation(fields: [propertyId], references: [id])
   payments Payment[]
+
+  
 }
 
 // -------------------- PAYMENTS --------------------
@@ -161,4 +165,36 @@ model WorkOrder {
   user          User     @relation("UserWorkOrders", fields: [userId], references: [id])
 
   @@map("workorder")
+}
+
+// report model 
+model Report {
+  id          String       @id @default(uuid())
+  type        ReportType
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  generatedBy String?      // User ID who generated the report
+  status      ReportStatus @default(PENDING)
+  data        Json
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relation to the user who generated the report
+  user User? @relation("UserReportsGenerated", fields: [generatedBy], references: [id], onDelete: SetNull)
+}
+
+
+enum ReportType {
+  PROPERTY_SUMMARY
+  PAYMENT_SUMMARY
+  LEASE_SUMMARY
+  TENANT_ACTIVITY
+}
+
+enum ReportStatus {
+  PENDING
+  COMPLETED
+  FAILED
 }
